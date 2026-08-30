@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Miami Map</title>
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.map-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.title {
+  position: absolute;
+  z-index: 999;
+  top: 12px;
+  left: 12px;
+
+  padding: 8px 14px;
+
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(10px);
+
+  border-radius: 14px;
+
+  font-size: 13px;
+  font-weight: bold;
+  color: #222;
+}
+
+.location {
+  position: absolute;
+  z-index: 999;
+  bottom: 12px;
+  left: 12px;
+
+  padding: 7px 12px;
+
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(10px);
+
+  border-radius: 12px;
+
+  font-size: 12px;
+  color: #333;
+}
+</style>
+</head>
+
+<body>
+
+<div class="map-box">
+
+  <div class="title">
+    🌴 MIAMI
+  </div>
+
+  <div id="map"></div>
+
+  <div class="location">
+    📍 Miami, FL
+  </div>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const map = L.map('map', {
+  zoomControl: false,
+  attributionControl: false
+}).setView([25.7617, -80.1918], 12);
+
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+).addTo(map);
+
+L.marker([25.7617, -80.1918])
+  .addTo(map)
+  .bindPopup('🌴 Miami');
+
+</script>
+
+</body>
+</html>
