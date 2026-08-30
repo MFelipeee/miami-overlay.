@@ -2,144 +2,95 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box}
+* { box-sizing: border-box; }
 
-body{
- margin:0;
- background:transparent;
- font-family:Arial,sans-serif;
- color:white;
+body {
+  margin: 0;
+  background: transparent;
+  font-family: Arial, sans-serif;
+  color: white;
 }
 
-.overlay{
- position:absolute;
- top:25px;
- left:25px;
- width:300px;
- padding:18px;
- border-radius:18px;
- background:rgba(10,10,15,.82);
- border:1px solid rgba(255,255,255,.15);
- box-shadow:0 8px 30px rgba(0,0,0,.35);
+.overlay {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 300px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(10,10,15,.82);
+  border: 1px solid rgba(255,255,255,.15);
 }
 
-.title{
- font-size:13px;
- font-weight:bold;
- letter-spacing:1.5px;
- opacity:.75;
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  opacity: .75;
 }
 
-.money{
- font-size:34px;
- font-weight:800;
- margin:5px 0 12px;
+.money {
+  font-size: 34px;
+  font-weight: 800;
+  margin: 5px 0 12px;
 }
 
-.goal{
- display:flex;
- justify-content:space-between;
- font-size:13px;
- margin-bottom:6px;
+.goal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
 }
 
-.progress{
- height:8px;
- background:rgba(255,255,255,.15);
- border-radius:10px;
- overflow:hidden;
+.progress {
+  height: 8px;
+  background: rgba(255,255,255,.15);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.bar{
- height:100%;
- width:0%;
- background:white;
- border-radius:10px;
+.bar {
+  height: 100%;
+  width: 0%;
+  background: white;
+  border-radius: 10px;
 }
 
-.info{
- display:flex;
- justify-content:space-between;
- padding-top:12px;
- margin-top:15px;
- border-top:1px solid rgba(255,255,255,.12);
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+  margin-top: 15px;
+  border-top: 1px solid rgba(255,255,255,.12);
 }
 
-.item{text-align:center}
-
-.label{
- font-size:11px;
- opacity:.6;
- margin-bottom:4px;
+.item {
+  text-align: center;
 }
 
-.value{
- font-size:18px;
- font-weight:bold;
+.label {
+  font-size: 11px;
+  opacity: .6;
+  margin-bottom: 4px;
 }
 
-.bottom{
- display:flex;
- justify-content:space-between;
- margin-top:15px;
- padding-top:12px;
- border-top:1px solid rgba(255,255,255,.12);
- font-size:12px;
- opacity:.85;
+.value {
+  font-size: 18px;
+  font-weight: bold;
 }
 
-/* CONTROLE */
-
-.settings{
- position:fixed;
- right:15px;
- bottom:15px;
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  font-size: 12px;
+  opacity: .85;
 }
-
-.gear{
- width:42px;
- height:42px;
- border:0;
- border-radius:50%;
- background:rgba(0,0,0,.75);
- color:white;
- font-size:20px;
-}
-
-.panel{
- display:none;
- position:fixed;
- right:15px;
- bottom:65px;
- width:250px;
- padding:16px;
- border-radius:15px;
- background:rgba(15,15,20,.96);
- border:1px solid rgba(255,255,255,.2);
-}
-
-.panel h3{
- margin-top:0;
-}
-
-.panel input{
- width:100%;
- padding:10px;
- margin:5px 0 10px;
- border-radius:8px;
- border:0;
-}
-
-.panel button{
- padding:9px 12px;
- margin:3px;
- border:0;
- border-radius:8px;
-}
-
 </style>
 </head>
 
@@ -147,211 +98,155 @@ body{
 
 <div class="overlay">
 
- <div class="title">GANHOS DO DIA</div>
+  <div class="title">GANHOS DO DIA</div>
 
- <div class="money" id="money">$0.00</div>
+  <div class="money" id="money">$0.00</div>
 
- <div class="goal">
-  <span>🎯 META</span>
-  <span id="goalText">$150.00</span>
- </div>
-
- <div class="progress">
-  <div class="bar" id="bar"></div>
- </div>
-
- <div class="info">
-
-  <div class="item">
-   <div class="label">🚗 ENTREGAS</div>
-   <div class="value" id="deliveries">0</div>
+  <div class="goal">
+    <span>🎯 META</span>
+    <span id="goal">$150.00</span>
   </div>
 
-  <div class="item">
-   <div class="label">⏱ TRABALHO</div>
-   <div class="value" id="timer">00:00:00</div>
+  <div class="progress">
+    <div class="bar" id="bar"></div>
   </div>
 
- </div>
+  <div class="info">
 
- <div class="bottom">
-  <span>📍 MIAMI, FL</span>
-  <span id="clock">--:--</span>
- </div>
+    <div class="item">
+      <div class="label">🚗 ENTREGAS</div>
+      <div class="value" id="deliveries">0</div>
+    </div>
 
-</div>
+    <div class="item">
+      <div class="label">⏱ TRABALHO</div>
+      <div class="value" id="timer">00:00:00</div>
+    </div>
 
-<div class="settings">
+  </div>
 
- <button class="gear" onclick="togglePanel()">⚙️</button>
-
-</div>
-
-<div class="panel" id="panel">
-
- <h3>Controle</h3>
-
- <label>Ganhos ($)</label>
- <input id="moneyInput" type="number" step="0.01" value="0">
-
- <button onclick="addMoney(5)">+$5</button>
- <button onclick="addMoney(10)">+$10</button>
- <button onclick="addMoney(20)">+$20</button>
-
- <br>
-
- <label>Entregas</label>
- <br>
- <button onclick="addDelivery()">+1 entrega</button>
- <button onclick="removeDelivery()">-1</button>
-
- <br><br>
-
- <label>Meta ($)</label>
- <input id="goalInput" type="number" value="150">
-
- <button onclick="saveSettings()">SALVAR</button>
- <button onclick="resetDay()">ZERAR DIA</button>
+  <div class="bottom">
+    <span>📍 MIAMI, FL</span>
+    <span id="clock">--:--</span>
+  </div>
 
 </div>
 
-<script>
+<script type="module">
 
-let money=Number(localStorage.getItem("money"))||0;
-let deliveries=Number(localStorage.getItem("deliveries"))||0;
-let goal=Number(localStorage.getItem("goal"))||150;
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-let seconds=Number(localStorage.getItem("seconds"))||0;
+import {
+  getFirestore,
+  doc,
+  onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-function save(){
 
- localStorage.setItem("money",money);
- localStorage.setItem("deliveries",deliveries);
- localStorage.setItem("goal",goal);
- localStorage.setItem("seconds",seconds);
+/* ==============================
+   FIREBASE
+   ============================== */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
+  authDomain: "miami-96afb.firebaseapp.com",
+  projectId: "miami-96afb",
+  storageBucket: "miami-96afb.firebasestorage.app",
+  messagingSenderId: "357970079680",
+  appId: "1:357970079680:web:a2505fee523e05d8e1e225",
+  measurementId: "G-TK8LV5MB5N"
+};
+
+  
+
+
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const controleRef = doc(db, "live", "controle");
+
+
+/* ==============================
+   RECEBER DADOS
+   ============================== */
+
+onSnapshot(controleRef, (snapshot) => {
+
+  if (!snapshot.exists()) return;
+
+  const data = snapshot.data();
+
+  const money = Number(data.ganhos) || 0;
+  const deliveries = Number(data.entregas) || 0;
+  const goal = Number(data.meta) || 150;
+  const seconds = Number(data.segundos) || 0;
+
+
+  document.getElementById("money").textContent =
+    "$" + money.toFixed(2);
+
+
+  document.getElementById("deliveries").textContent =
+    deliveries;
+
+
+  document.getElementById("goal").textContent =
+    "$" + goal.toFixed(2);
+
+
+  let percent = goal > 0
+    ? (money / goal) * 100
+    : 0;
+
+  if (percent > 100) percent = 100;
+
+  document.getElementById("bar").style.width =
+    percent + "%";
+
+
+  let h = Math.floor(seconds / 3600);
+
+  let m = Math.floor((seconds % 3600) / 60);
+
+  let s = seconds % 60;
+
+
+  document.getElementById("timer").textContent =
+    String(h).padStart(2,"0") + ":" +
+    String(m).padStart(2,"0") + ":" +
+    String(s).padStart(2,"0");
+
+});
+
+
+/* ==============================
+   RELÓGIO MIAMI
+   ============================== */
+
+function clock() {
+
+  const now = new Date();
+
+  const options = {
+    timeZone: "America/New_York",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true
+  };
+
+  document.getElementById("clock").textContent =
+    new Intl.DateTimeFormat("en-US", options).format(now);
 
 }
-
-function update(){
-
- document.getElementById("money").textContent=
- "$"+money.toFixed(2);
-
- document.getElementById("deliveries").textContent=
- deliveries;
-
- document.getElementById("goalText").textContent=
- "$"+goal.toFixed(2);
-
- let percent=goal>0?(money/goal)*100:0;
-
- if(percent>100)percent=100;
-
- document.getElementById("bar").style.width=
- percent+"%";
-
- let h=Math.floor(seconds/3600);
- let m=Math.floor((seconds%3600)/60);
- let s=seconds%60;
-
- document.getElementById("timer").textContent=
- String(h).padStart(2,"0")+":"+
- String(m).padStart(2,"0")+":"+
- String(s).padStart(2,"0");
-
-}
-
-function addMoney(value){
-
- money+=value;
-
- save();
- update();
-
-}
-
-function addDelivery(){
-
- deliveries++;
-
- save();
- update();
-
-}
-
-function removeDelivery(){
-
- if(deliveries>0)deliveries--;
-
- save();
- update();
-
-}
-
-function saveSettings(){
-
- money=Number(document.getElementById("moneyInput").value)||0;
-
- goal=Number(document.getElementById("goalInput").value)||150;
-
- save();
- update();
-
-}
-
-function resetDay(){
-
- if(confirm("Zerar ganhos, entregas e tempo?")){
-
-  money=0;
-  deliveries=0;
-  seconds=0;
-
-  save();
-  update();
-
- }
-
-}
-
-function togglePanel(){
-
- let p=document.getElementById("panel");
-
- p.style.display=
- p.style.display==="block"?"none":"block";
-
-}
-
-function clock(){
-
- let now=new Date();
-
- let options={
-  timeZone:"America/New_York",
-  hour:"2-digit",
-  minute:"2-digit",
-  hour12:true
- };
-
- document.getElementById("clock").textContent=
- new Intl.DateTimeFormat("en-US",options).format(now);
-
-}
-
-setInterval(function(){
-
- seconds++;
-
- save();
- update();
-
-},1000);
-
-setInterval(clock,1000);
 
 clock();
-update();
+
+setInterval(clock, 1000);
 
 </script>
 
