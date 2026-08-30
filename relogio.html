@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.widget {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  padding: 10px 17px;
+
+  background: rgba(255,255,255,0.90);
+
+  border-radius: 14px;
+
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+  color: #18323b;
+}
+
+.location {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  opacity: .45;
+}
+
+.time {
+  margin-top: 2px;
+
+  font-size: 25px;
+  font-weight: 800;
+
+  letter-spacing: .5px;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.date {
+  margin-top: 2px;
+
+  font-size: 8px;
+
+  letter-spacing: 1px;
+
+  opacity: .4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+  <div class="location">
+    MIAMI, FL
+  </div>
+
+  <div class="time" id="time">
+    12:00 AM
+  </div>
+
+  <div class="date" id="date">
+    DOMINGO
+  </div>
+
+</div>
+
+<script>
+
+function updateClock() {
+
+  const now = new Date();
+
+  const optionsTime = {
+    timeZone: "America/New_York",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  };
+
+  const optionsDate = {
+    timeZone: "America/New_York",
+    weekday: "long"
+  };
+
+  const time = new Intl.DateTimeFormat(
+    "en-US",
+    optionsTime
+  ).format(now);
+
+  const date = new Intl.DateTimeFormat(
+    "pt-BR",
+    optionsDate
+  ).format(now);
+
+  document.getElementById("time")
+    .textContent = time;
+
+  document.getElementById("date")
+    .textContent =
+      date.toUpperCase();
+
+}
+
+updateClock();
+
+setInterval(updateClock, 1000);
+
+</script>
+
+</body>
+</html>
