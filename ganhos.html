@@ -1,1 +1,131 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.widget {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 22px;
+
+  background: rgba(15,15,15,0.82);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+
+  box-shadow: 0 6px 25px rgba(0,0,0,0.35);
+
+  color: white;
+
+  min-width: 130px;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  opacity: 0.75;
+  margin-bottom: 4px;
+}
+
+.money {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0.5;
+  margin-top: 4px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+  <div class="title">💰 GANHOS</div>
+
+  <div class="money" id="money">
+    $0.00
+  </div>
+
+  <div class="label">
+    HOJE
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  onSnapshot
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
+  authDomain: "miami-96afb.firebaseapp.com",
+  projectId: "miami-96afb",
+  storageBucket: "miami-96afb.firebasestorage.app",
+  messagingSenderId: "357970079680",
+  appId: "1:357970079680:web:a2505fee523e05d8e1e225",
+  measurementId: "G-TK8LV5MB5N"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const ref = doc(db, "live", "controle");
+
+
+onSnapshot(ref, (snapshot) => {
+
+  const data = snapshot.data();
+
+  if (!data) return;
+
+  const money = Number(data.ganhos) || 0;
+
+  document.getElementById("money").textContent =
+    "$" + money.toFixed(2);
+
+});
+
+</script>
+
+</body>
+</html>
