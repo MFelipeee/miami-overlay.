@@ -16,15 +16,19 @@ html, body {
 }
 
 .widget {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 
-  padding: 10px 17px;
+  width: 150px;
+  height: 75px;
 
-  background: rgba(255,255,255,0.90);
+  box-sizing: border-box;
 
-  border-radius: 14px;
+  background: rgba(255,255,255,0.92);
+
+  border-radius: 18px;
 
   box-shadow: 0 5px 20px rgba(0,0,0,0.15);
 
@@ -34,27 +38,28 @@ html, body {
 .location {
   font-size: 9px;
   font-weight: bold;
-  letter-spacing: 1.5px;
-  opacity: .45;
+  letter-spacing: 2px;
+  opacity: .5;
 }
 
 .time {
-  margin-top: 2px;
+  margin-top: 3px;
 
-  font-size: 25px;
+  font-size: 27px;
   font-weight: 800;
 
-  letter-spacing: .5px;
+  line-height: 1;
 
   font-variant-numeric: tabular-nums;
 }
 
 .date {
-  margin-top: 2px;
+  margin-top: 5px;
 
   font-size: 8px;
+  font-weight: bold;
 
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 
   opacity: .4;
 }
@@ -70,49 +75,64 @@ html, body {
   </div>
 
   <div class="time" id="time">
-    12:00 AM
+    --:--
   </div>
 
   <div class="date" id="date">
-    DOMINGO
+    --
   </div>
 
 </div>
 
 <script>
 
+const days = [
+  "DOMINGO",
+  "SEGUNDA",
+  "TERÇA",
+  "QUARTA",
+  "QUINTA",
+  "SEXTA",
+  "SÁBADO"
+];
+
 function updateClock() {
 
   const now = new Date();
 
-  const optionsTime = {
-    timeZone: "America/New_York",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true
-  };
-
-  const optionsDate = {
-    timeZone: "America/New_York",
-    weekday: "long"
-  };
-
-  const time = new Intl.DateTimeFormat(
+  const formatter = new Intl.DateTimeFormat(
     "en-US",
-    optionsTime
-  ).format(now);
+    {
+      timeZone: "America/New_York",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    }
+  );
 
-  const date = new Intl.DateTimeFormat(
-    "pt-BR",
-    optionsDate
-  ).format(now);
+  const dateFormatter = new Intl.DateTimeFormat(
+    "en-US",
+    {
+      timeZone: "America/New_York",
+      weekday: "long"
+    }
+  );
 
-  document.getElementById("time")
-    .textContent = time;
+  const time = formatter.format(now);
 
-  document.getElementById("date")
-    .textContent =
-      date.toUpperCase();
+  const weekday = dateFormatter.format(now);
+
+  const weekdayNumber = new Date(
+    now.toLocaleString("en-US", {
+      timeZone: "America/New_York"
+    })
+  ).getDay();
+
+  document.getElementById("time").textContent =
+    time;
+
+  document.getElementById("date").textContent =
+    days[weekdayNumber];
 
 }
 
