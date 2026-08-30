@@ -5,96 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  background:transparent;
-  overflow:hidden;
-  font-family:Arial,sans-serif;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
 }
 
-.card{
-  width:100%;
-  height:100%;
-  box-sizing:border-box;
+.card {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
 
-  padding:16px 20px;
+  padding: 12px 16px;
 
-  background:rgba(255,255,255,0.16);
-  border:1px solid rgba(255,255,255,0.35);
-  border-radius:22px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.32);
+  border-radius: 18px;
 
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
   box-shadow:
-    0 8px 30px rgba(0,0,0,.18),
-    inset 0 1px 1px rgba(255,255,255,.25);
+    0 6px 22px rgba(0,0,0,0.16),
+    inset 0 1px 1px rgba(255,255,255,0.22);
 
-  color:white;
+  color: white;
 }
 
-.top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* CABEÇALHO */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.label{
-  font-size:12px;
-  letter-spacing:1.7px;
-  font-weight:600;
-  opacity:.85;
+.label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  opacity: 0.88;
 }
 
-.percent{
-  font-size:11px;
-  opacity:.75;
+.percent {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.72;
 }
 
-.values{
-  margin-top:8px;
-  display:flex;
-  align-items:baseline;
-  gap:5px;
+/* VALORES */
+.values {
+  margin-top: 5px;
+
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
-.current{
-  font-size:25px;
-  font-weight:700;
+.current {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
-.target{
-  font-size:12px;
-  opacity:.65;
+.target {
+  font-size: 10px;
+  opacity: 0.62;
 }
 
-.bar{
-  margin-top:12px;
-  width:100%;
-  height:7px;
-  background:rgba(255,255,255,.18);
-  border-radius:20px;
-  overflow:hidden;
+/* BARRA */
+.bar {
+  margin-top: 8px;
+
+  width: 100%;
+  height: 4px;
+
+  background: rgba(255,255,255,0.17);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-.progress{
-  height:100%;
-  width:0%;
-  border-radius:20px;
+.progress {
+  width: 0%;
+  height: 100%;
 
-  background:linear-gradient(
+  border-radius: 20px;
+
+  background: linear-gradient(
     90deg,
     #55e6df,
     #ff8fcf
   );
 
   box-shadow:
-    0 0 10px rgba(85,230,223,.4);
+    0 0 8px rgba(85,230,223,0.4);
 
-  transition:width .5s ease;
+  transition: width 0.5s ease;
 }
 </style>
 </head>
@@ -161,24 +171,24 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-const ref = doc(db,"live","controle");
+const ref = doc(db, "live", "controle");
 
-onSnapshot(ref,(snapshot)=>{
+onSnapshot(ref, (snapshot) => {
 
   const data = snapshot.data();
 
-  if(!data) return;
+  if (!data) return;
 
   const money = Number(data.ganhos) || 0;
   const goal = Number(data.meta) || 150;
 
   let percentage = 0;
 
-  if(goal > 0){
+  if (goal > 0) {
     percentage = (money / goal) * 100;
   }
 
-  percentage = Math.min(percentage,100);
+  percentage = Math.min(percentage, 100);
 
   document.getElementById("current").textContent =
     "$" + money.toFixed(2);
