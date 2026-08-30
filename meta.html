@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.widget {
+  width: 220px;
+  padding: 15px 18px;
+  box-sizing: border-box;
+
+  background: rgba(255,255,255,0.90);
+  border-radius: 20px;
+
+  box-shadow: 0 6px 25px rgba(0,0,0,0.18);
+
+  color: #18323b;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  opacity: .65;
+}
+
+.percent {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.values {
+  margin-top: 5px;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.progress {
+  width: 100%;
+  height: 7px;
+  background: rgba(24,50,59,.12);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  background: #2aa6a6;
+  border-radius: 20px;
+  transition: width .5s ease;
+}
+
+.footer {
+  margin-top: 7px;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  opacity: .45;
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+  <div class="top">
+    <div class="title">🎯 META DO DIA</div>
+    <div class="percent" id="percent">0%</div>
+  </div>
+
+  <div class="values" id="values">
+    $0 / $150
+  </div>
+
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <div class="footer">
+    MIAMI LIVE
+  </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
+  authDomain: "miami-96afb.firebaseapp.com",
+  projectId: "miami-96afb",
+  storageBucket: "miami-96afb.firebasestorage.app",
+  messagingSenderId: "357970079680",
+  appId: "1:357970079680:web:a2505fee523e05d8e1e225",
+  measurementId: "G-TK8LV5MB5N"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const ref = doc(db, "live", "controle");
+
+
+onSnapshot(ref, (snapshot) => {
+
+  const data = snapshot.data();
+
+  if (!data) return;
+
+  const money = Number(data.ganhos) || 0;
+  const goal = Number(data.meta) || 150;
+
+  let percentage = 0;
+
+  if (goal > 0) {
+    percentage = (money / goal) * 100;
+  }
+
+  percentage = Math.min(percentage, 100);
+
+  document.getElementById("values").textContent =
+    "$" + money.toFixed(2) +
+    " / $" + goal.toFixed(2);
+
+  document.getElementById("percent").textContent =
+    Math.round(percentage) + "%";
+
+  document.getElementById("bar").style.width =
+    percentage + "%";
+
+});
+
+</script>
+
+</body>
+</html>
