@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 html, body {
   margin: 0;
   padding: 0;
@@ -17,133 +16,123 @@ html, body {
 }
 
 .widget {
-
   position: relative;
 
-  width: 190px;
-  height: 92px;
+  width: 210px;
+  height: 88px;
 
   box-sizing: border-box;
 
-  padding: 14px 18px;
+  padding: 15px 20px;
 
-  background: rgba(250,248,242,0.88);
+  /* GLASS */
+  background: rgba(255,255,255,0.18);
 
-  border-radius: 22px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
-  border: 1px solid rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.45);
+
+  border-radius: 24px;
 
   box-shadow:
-    0 8px 28px rgba(0,0,0,0.15);
+    0 8px 30px rgba(0,0,0,0.18);
 
-  color: #18343a;
+  color: white;
 
   overflow: hidden;
-
 }
 
-/* detalhe de água */
+/* brilho interno */
 
-.widget::after {
-
+.widget::before {
   content: "";
 
   position: absolute;
 
-  width: 120px;
-  height: 35px;
+  top: -45px;
+  right: -25px;
 
-  right: -35px;
-  bottom: -17px;
+  width: 110px;
+  height: 110px;
 
   border-radius: 50%;
 
-  background: rgba(75,181,181,0.13);
-
-  transform: rotate(-8deg);
-
+  background: rgba(255,255,255,0.16);
 }
 
-/* topo */
+/* pequena onda */
+
+.widget::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -20px;
+  left: -20px;
+
+  width: 150px;
+  height: 45px;
+
+  border-radius: 50%;
+
+  background: rgba(120,220,220,0.14);
+
+  transform: rotate(-6deg);
+}
 
 .top {
+  position: relative;
+  z-index: 2;
 
   display: flex;
-
-  justify-content: space-between;
-
   align-items: center;
+  gap: 7px;
 
-}
-
-.brand {
-
-  font-size: 8px;
-
+  font-size: 9px;
   font-weight: bold;
 
   letter-spacing: 2px;
 
-  opacity: .45;
-
+  opacity: .75;
 }
 
-.sun {
+.dot {
+  width: 6px;
+  height: 6px;
 
-  font-size: 13px;
+  border-radius: 50%;
 
-  opacity: .45;
-
+  background: rgba(255,255,255,.9);
 }
-
-/* valor */
 
 .money {
+  position: relative;
+  z-index: 2;
 
-  margin-top: 7px;
+  margin-top: 6px;
 
-  font-size: 30px;
-
+  font-size: 31px;
   font-weight: 800;
-
-  letter-spacing: -.5px;
 
   line-height: 1;
 
+  letter-spacing: -.5px;
 }
 
-/* linha */
-
-.line {
-
-  width: 32px;
-
-  height: 2px;
-
-  margin-top: 8px;
-
-  border-radius: 5px;
-
-  background: rgba(52,166,166,.55);
-
-}
-
-/* rodapé */
-
-.label {
+.bottom {
+  position: relative;
+  z-index: 2;
 
   margin-top: 5px;
 
   font-size: 8px;
-
   font-weight: bold;
 
-  letter-spacing: 1.6px;
+  letter-spacing: 1.7px;
 
-  opacity: .38;
-
+  opacity: .55;
 }
-
 </style>
 </head>
 
@@ -152,29 +141,19 @@ html, body {
 <div class="widget">
 
   <div class="top">
-
-    <div class="brand">
-      MIAMI · TODAY
-    </div>
-
-    <div class="sun">
-      ☼
-    </div>
-
+    <div class="dot"></div>
+    MIAMI · TODAY
   </div>
 
   <div class="money" id="money">
     $0.00
   </div>
 
-  <div class="line"></div>
-
-  <div class="label">
+  <div class="bottom">
     EARNINGS
   </div>
 
 </div>
-
 
 <script type="module">
 
@@ -188,9 +167,7 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
 const firebaseConfig = {
-
   apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
   authDomain: "miami-96afb.firebaseapp.com",
   projectId: "miami-96afb",
@@ -198,20 +175,13 @@ const firebaseConfig = {
   messagingSenderId: "357970079680",
   appId: "1:357970079680:web:a2505fee523e05d8e1e225",
   measurementId: "G-TK8LV5MB5N"
-
 };
-
 
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-const ref = doc(
-  db,
-  "live",
-  "controle"
-);
-
+const ref = doc(db, "live", "controle");
 
 onSnapshot(ref, (snapshot) => {
 
@@ -219,12 +189,10 @@ onSnapshot(ref, (snapshot) => {
 
   if (!data) return;
 
-  const money =
-    Number(data.ganhos) || 0;
+  const money = Number(data.ganhos) || 0;
 
   document.getElementById("money")
-    .textContent =
-      "$" + money.toFixed(2);
+    .textContent = "$" + money.toFixed(2);
 
 });
 
