@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 145px;
+  height: 78px;
+
+  background: rgba(255,255,255,0.92);
+
+  border-radius: 39px;
+
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+  color: #18323b;
+}
+
+.title {
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  opacity: .5;
+}
+
+.value {
+  margin-top: 4px;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+.unit {
+  margin-top: 3px;
+
+  font-size: 8px;
+  font-weight: bold;
+
+  letter-spacing: 1.5px;
+
+  opacity: .4;
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+  <div class="title">
+    📈 GANHO
+  </div>
+
+  <div class="value" id="value">
+    $0.00
+  </div>
+
+  <div class="unit">
+    POR HORA
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
+  authDomain: "miami-96afb.firebaseapp.com",
+  projectId: "miami-96afb",
+  storageBucket: "miami-96afb.firebasestorage.app",
+  messagingSenderId: "357970079680",
+  appId: "1:357970079680:web:a2505fee523e05d8e1e225",
+  measurementId: "G-TK8LV5MB5N"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const ref = doc(db, "live", "controle");
+
+
+let money = 0;
+let seconds = 0;
+
+
+function updateScreen() {
+
+  let hourly = 0;
+
+  if (seconds > 0) {
+
+    const hours = seconds / 3600;
+
+    hourly = money / hours;
+
+  }
+
+  document.getElementById("value")
+    .textContent =
+      "$" + hourly.toFixed(2);
+
+}
+
+
+onSnapshot(ref, (snapshot) => {
+
+  const data = snapshot.data();
+
+  if (!data) return;
+
+  money =
+    Number(data.ganhos) || 0;
+
+  seconds =
+    Number(data.segundos) || 0;
+
+  updateScreen();
+
+});
+
+</script>
+
+</body>
+</html>
