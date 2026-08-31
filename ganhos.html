@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,59 +17,106 @@ html,body{
 }
 
 .card{
-  box-sizing:border-box;
   width:100%;
   height:100%;
-  padding:18px 22px;
+  box-sizing:border-box;
+  padding:12px 15px;
 
-  background:rgba(255,255,255,0.16);
-  border:1px solid rgba(255,255,255,0.35);
-  border-radius:22px;
+  background:rgba(15,18,25,.55);
+  border:1px solid rgba(255,255,255,.20);
+  border-radius:16px;
 
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 
   box-shadow:
-    0 8px 30px rgba(0,0,0,0.18),
-    inset 0 1px 1px rgba(255,255,255,0.25);
+    0 5px 20px rgba(0,0,0,.25),
+    inset 0 1px rgba(255,255,255,.15);
 
   color:white;
 }
 
-.label{
-  font-size:12px;
-  letter-spacing:1.8px;
-  font-weight:600;
-  opacity:.85;
-  margin-bottom:7px;
+/* TOPO */
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1.3px;
+}
+
+.live{
+  font-size:9px;
+  font-weight:bold;
+  color:#ff5964;
+}
+
+.live span{
+  display:inline-block;
+  width:6px;
+  height:6px;
+  margin-right:4px;
+  border-radius:50%;
+  background:#ff5964;
+  box-shadow:0 0 7px #ff5964;
+}
+
+/* GANHOS */
+
+.title{
+  margin-top:9px;
+  font-size:8px;
+  letter-spacing:1.7px;
+  opacity:.55;
 }
 
 .money{
-  font-size:32px;
-  line-height:1;
-  font-weight:700;
+  margin-top:2px;
+  font-size:27px;
+  font-weight:bold;
   letter-spacing:-1px;
-  text-shadow:0 2px 8px rgba(0,0,0,.25);
 }
 
-.today{
-  margin-top:7px;
-  font-size:10px;
-  letter-spacing:1.5px;
-  opacity:.65;
+.goal{
+  margin-top:9px;
+  display:flex;
+  justify-content:space-between;
+  font-size:9px;
+  opacity:.7;
 }
 
-.glow{
-  width:38px;
-  height:3px;
-  margin-top:13px;
+/* BARRA */
+
+.bar{
+  margin-top:5px;
+  width:100%;
+  height:5px;
+  background:rgba(255,255,255,.12);
   border-radius:10px;
-  background:linear-gradient(
-    90deg,
-    #55e6df,
-    #ff8fcf
-  );
-  box-shadow:0 0 10px rgba(85,230,223,.45);
+  overflow:hidden;
+}
+
+.progress{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,#55e6df,#8c7bff,#ff8fcf);
+  border-radius:10px;
+  transition:.5s;
+}
+
+/* RODAPÉ */
+
+.bottom{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  font-size:8px;
+  opacity:.55;
 }
 </style>
 </head>
@@ -77,21 +125,57 @@ html,body{
 
 <div class="card">
 
-  <div class="label">
-    💰 GANHOS
+  <div class="top">
+
+    <div class="logo">
+      🌴 MF • MIAMI LIVE
+    </div>
+
+    <div class="live">
+      <span></span>LIVE
+    </div>
+
   </div>
 
-  <div class="money" id="money">
+  <div class="title">
+    GANHOS HOJE
+  </div>
+
+  <div class="money" id="current">
     $0.00
   </div>
 
-  <div class="today">
-    HOJE
+  <div class="goal">
+
+    <span id="target">
+      META $150.00
+    </span>
+
+    <span id="percent">
+      0%
+    </span>
+
   </div>
 
-  <div class="glow"></div>
+  <div class="bar">
+
+    <div
+      class="progress"
+      id="progress">
+    </div>
+
+  </div>
+
+  <div class="bottom">
+
+    <span>📍 MIAMI, FL</span>
+
+    <span>● ONLINE</span>
+
+  </div>
 
 </div>
+
 
 <script type="module">
 
@@ -105,34 +189,95 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 const firebaseConfig = {
 
   apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
-  authDomain: "miami-96afb.firebaseapp.com",
-  projectId: "miami-96afb",
-  storageBucket: "miami-96afb.firebasestorage.app",
-  messagingSenderId: "357970079680",
-  appId: "1:357970079680:web:a2505fee523e05d8e1e225",
-  measurementId: "G-TK8LV5MB5N"
+
+  authDomain:
+  "miami-96afb.firebaseapp.com",
+
+  projectId:
+  "miami-96afb",
+
+  storageBucket:
+  "miami-96afb.firebasestorage.app",
+
+  messagingSenderId:
+  "357970079680",
+
+  appId:
+  "1:357970079680:web:a2505fee523e05d8e1e225",
+
+  measurementId:
+  "G-TK8LV5MB5N"
 
 };
 
-const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const app =
+initializeApp(firebaseConfig);
 
-const ref = doc(db,"live","controle");
+const db =
+getFirestore(app);
+
+
+const ref =
+doc(db,"live","controle");
+
 
 onSnapshot(ref,(snapshot)=>{
 
-  const data = snapshot.data();
+  const data =
+  snapshot.data();
 
   if(!data) return;
 
-  const money = Number(data.ganhos) || 0;
 
-  document.getElementById("money").textContent =
-    "$" + money.toFixed(2);
+  const money =
+  Number(data.ganhos) || 0;
+
+  const goal =
+  Number(data.meta) || 150;
+
+
+  let percentage = 0;
+
+
+  if(goal > 0){
+
+    percentage =
+    (money / goal) * 100;
+
+  }
+
+
+  percentage =
+  Math.min(percentage,100);
+
+
+  document
+  .getElementById("current")
+  .textContent =
+  "$" + money.toFixed(2);
+
+
+  document
+  .getElementById("target")
+  .textContent =
+  "META $" + goal.toFixed(2);
+
+
+  document
+  .getElementById("percent")
+  .textContent =
+  Math.round(percentage) + "%";
+
+
+  document
+  .getElementById("progress")
+  .style.width =
+  percentage + "%";
 
 });
 
@@ -140,3 +285,4 @@ onSnapshot(ref,(snapshot)=>{
 
 </body>
 </html>
+```
