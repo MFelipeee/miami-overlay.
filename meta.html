@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,73 +20,93 @@ html, body {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  padding: 12px 15px;
 
-  padding: 12px 16px;
+  background: rgba(15,18,25,0.55);
 
-  background: rgba(255,255,255,0.16);
-  border: 1px solid rgba(255,255,255,0.32);
-  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 16px;
 
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
   box-shadow:
-    0 6px 22px rgba(0,0,0,0.16),
-    inset 0 1px 1px rgba(255,255,255,0.22);
+    0 5px 20px rgba(0,0,0,0.25),
+    inset 0 1px 1px rgba(255,255,255,0.15);
 
   color: white;
 }
 
-/* CABEÇALHO */
+/* TOPO */
+
 .top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.label {
+.logo {
   font-size: 11px;
-  letter-spacing: 1.5px;
-  font-weight: 600;
-  opacity: 0.88;
+  font-weight: bold;
+  letter-spacing: 1.3px;
 }
 
-.percent {
-  font-size: 10px;
-  font-weight: 600;
-  opacity: 0.72;
+.live {
+  font-size: 9px;
+  font-weight: bold;
+  color: #ff5964;
 }
 
-/* VALORES */
-.values {
-  margin-top: 5px;
+.live span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: #ff5964;
+  box-shadow: 0 0 7px #ff5964;
+}
+
+/* GANHOS */
+
+.title {
+  margin-top: 9px;
+  font-size: 8px;
+  letter-spacing: 1.7px;
+  opacity: 0.55;
+}
+
+.money {
+  margin-top: 2px;
+  font-size: 27px;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+
+/* META */
+
+.goal {
+  margin-top: 9px;
 
   display: flex;
-  align-items: baseline;
-  gap: 4px;
-}
+  justify-content: space-between;
 
-.current {
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.target {
-  font-size: 10px;
-  opacity: 0.62;
+  font-size: 9px;
+  opacity: 0.7;
 }
 
 /* BARRA */
+
 .bar {
-  margin-top: 8px;
+  margin-top: 5px;
 
   width: 100%;
-  height: 4px;
+  height: 5px;
 
-  background: rgba(255,255,255,0.17);
-  border-radius: 20px;
+  background: rgba(255,255,255,0.12);
+
+  border-radius: 10px;
+
   overflow: hidden;
 }
 
@@ -93,18 +114,28 @@ html, body {
   width: 0%;
   height: 100%;
 
-  border-radius: 20px;
-
   background: linear-gradient(
     90deg,
     #55e6df,
+    #8c7bff,
     #ff8fcf
   );
 
-  box-shadow:
-    0 0 8px rgba(85,230,223,0.4);
+  border-radius: 10px;
 
   transition: width 0.5s ease;
+}
+
+/* RODAPÉ */
+
+.bottom {
+  margin-top: 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 8px;
+  opacity: 0.55;
 }
 </style>
 </head>
@@ -115,33 +146,66 @@ html, body {
 
   <div class="top">
 
-    <div class="label">
-      🎯 META DO DIA
+    <div class="logo">
+      🌴 MF • MIAMI LIVE
     </div>
 
-    <div class="percent" id="percent">
+    <div class="live">
+      <span></span>LIVE
+    </div>
+
+  </div>
+
+
+  <div class="title">
+    GANHOS HOJE
+  </div>
+
+
+  <div
+    class="money"
+    id="current">
+    $0.00
+  </div>
+
+
+  <div class="goal">
+
+    <span id="target">
+      META $150.00
+    </span>
+
+    <span id="percent">
       0%
-    </div>
+    </span>
 
   </div>
 
-  <div class="values">
-
-    <div class="current" id="current">
-      $0.00
-    </div>
-
-    <div class="target" id="target">
-      / $150.00
-    </div>
-
-  </div>
 
   <div class="bar">
-    <div class="progress" id="progress"></div>
+
+    <div
+      class="progress"
+      id="progress">
+    </div>
+
+  </div>
+
+
+  <div class="bottom">
+
+    <span>
+      📍 MIAMI, FL
+    </span>
+
+    <span>
+      ● ONLINE
+    </span>
+
   </div>
 
 </div>
+
 
 <script type="module">
 
@@ -155,56 +219,114 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
 const firebaseConfig = {
 
-  apiKey: "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
-  authDomain: "miami-96afb.firebaseapp.com",
-  projectId: "miami-96afb",
-  storageBucket: "miami-96afb.firebasestorage.app",
-  messagingSenderId: "357970079680",
-  appId: "1:357970079680:web:a2505fee523e05d8e1e225",
-  measurementId: "G-TK8LV5MB5N"
+  apiKey:
+    "AIzaSyBCUefiPrAgRniWwWl705gzjc1Uf9Gi8KM0",
+
+  authDomain:
+    "miami-96afb.firebaseapp.com",
+
+  projectId:
+    "miami-96afb",
+
+  storageBucket:
+    "miami-96afb.firebasestorage.app",
+
+  messagingSenderId:
+    "357970079680",
+
+  appId:
+    "1:357970079680:web:a2505fee523e05d8e1e225",
+
+  measurementId:
+    "G-TK8LV5MB5N"
 
 };
 
-const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const app =
+  initializeApp(firebaseConfig);
 
-const ref = doc(db, "live", "controle");
 
-onSnapshot(ref, (snapshot) => {
+const db =
+  getFirestore(app);
 
-  const data = snapshot.data();
 
-  if (!data) return;
+const ref =
+  doc(
+    db,
+    "live",
+    "controle"
+  );
 
-  const money = Number(data.ganhos) || 0;
-  const goal = Number(data.meta) || 150;
 
-  let percentage = 0;
+onSnapshot(
+  ref,
+  (snapshot) => {
 
-  if (goal > 0) {
-    percentage = (money / goal) * 100;
+    const data =
+      snapshot.data();
+
+    if (!data) return;
+
+
+    const money =
+      Number(data.ganhos) || 0;
+
+
+    const goal =
+      Number(data.meta) || 150;
+
+
+    let percentage = 0;
+
+
+    if (goal > 0) {
+
+      percentage =
+        (money / goal) * 100;
+
+    }
+
+
+    percentage =
+      Math.min(
+        percentage,
+        100
+      );
+
+
+    document
+      .getElementById("current")
+      .textContent =
+      "$" + money.toFixed(2);
+
+
+    document
+      .getElementById("target")
+      .textContent =
+      "META $" + goal.toFixed(2);
+
+
+    document
+      .getElementById("percent")
+      .textContent =
+      Math.round(percentage) + "%";
+
+
+    document
+      .getElementById("progress")
+      .style.width =
+      percentage + "%";
+
   }
 
-  percentage = Math.min(percentage, 100);
-
-  document.getElementById("current").textContent =
-    "$" + money.toFixed(2);
-
-  document.getElementById("target").textContent =
-    "/ $" + goal.toFixed(2);
-
-  document.getElementById("percent").textContent =
-    Math.round(percentage) + "%";
-
-  document.getElementById("progress").style.width =
-    percentage + "%";
-
-});
+);
 
 </script>
 
 </body>
 </html>
+```
